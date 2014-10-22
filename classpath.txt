@@ -1,0 +1,4 @@
+# Classpath relative to root of project
+
+/Users/john/.m2/repository/args4j/args4j/2.0.29/args4j-2.0.29.jar
+target/Primes-1.0-SNAPSHOT.jar

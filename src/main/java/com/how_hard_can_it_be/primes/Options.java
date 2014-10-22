@@ -5,9 +5,9 @@ import org.kohsuke.args4j.Option;
 public class Options {
 	
 	@Option( name="--ceil", usage="The biggest prime number to find")
-	public String ceiling;
+	public Integer ceiling = 100;
 	
 	@Option( name="--noprint", usage="Suppress printing of found primes")
-	public Boolean noPrint;
+	public Boolean noPrint = false; // Print by default
 	
 }

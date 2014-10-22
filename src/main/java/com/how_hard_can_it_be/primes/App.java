@@ -13,16 +13,22 @@ public class App
     {
     	Options options = new Options();
     	CmdLineParser parser = new CmdLineParser( options);
+    	boolean goodCommandLine;
     	try 
     	{
 			parser.parseArgument(args);
+			goodCommandLine = true;
 		}
     	catch (CmdLineException exc) 
     	{
+    		goodCommandLine = false;
     		System.err.println( exc.getMessage());
     		System.err.println("primes [options]");
     		parser.printUsage(System.err);
 		}
-        System.out.println( "Hello World!" );
+    	if (goodCommandLine)
+    	{
+    		System.out.println( "Hello World!" );
+    	}
     }
 }

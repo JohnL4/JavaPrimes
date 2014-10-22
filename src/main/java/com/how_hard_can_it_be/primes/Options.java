@@ -7,7 +7,7 @@ public class Options {
 	@Option( name="--ceil", usage="The biggest prime number to find")
 	public String ceiling;
 	
-	@Option( name="--noprint", usage="Trigger/suppress printing of found primes")
+	@Option( name="--noprint", usage="Suppress printing of found primes")
 	public Boolean noPrint;
 	
 }

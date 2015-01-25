@@ -10,4 +10,10 @@ public class Options {
 	@Option( name="--noprint", usage="Suppress printing of found primes")
 	public Boolean noPrint = false; // Print by default
 	
+	@Option( name="--toFile", usage="Name of a binary file to which to write primes")
+	public String toFile;
+	
+	@Option( name="--fromFile", usage="Name of a binary file from which to read primes")
+	public String fromFile;
+	
 }

@@ -38,11 +38,11 @@ public class App
     		Duration computeTime = Duration.between(startTime, stopTime);
     		if (options.noPrint) 
     		{
-    			System.out.println( "\t1st prime: " + primes[0]);
+    			System.err.println( "\t1st prime: " + primes[0]);
     			if (primes.length >= 1001)
-    				System.out.println( "\t1001st prime: " + primes[1000]);
+    				System.err.println( "\t1001st prime: " + primes[1000]);
     			if (primes.length >= 10000)
-    				System.out.println( "\t10001st prime: " + primes[10000]);
+    				System.err.println( "\t10001st prime: " + primes[10000]);
     		}
     		else
             {
@@ -53,7 +53,7 @@ public class App
                 }
                 System.out.println();
             }
-    		System.out.println( String.format( "Found %d primes in %d msec", primes.length, computeTime.toMillis()));
+    		System.err.println( String.format( "Found %d primes in %d msec", primes.length, computeTime.toMillis()));
     	}
     }
 }

@@ -16,22 +16,27 @@ public class Eratosthenes implements PrimeFinder
     {
         List<Integer> retval = new LinkedList<Integer>();
         int n = aCeiling + 1;
-//        boolean isPrime[] = new boolean[n];
+        boolean isPrime[] = new boolean[n];
         // BitSet is a nice space-saver, but if you're trying to find primes below 10^9, you will
-        // probably want to increase your max. heap size.
-        BitSet isPrime = new BitSet(n);
+        // probably want to increase your max. heap size.  Note that a much better solution, since you're probably
+        // going to go through the primes in sequence is to not return an array of prime integers but instead
+        // set up a coroutine that spins through this bitset, handing out the next prime in sequence.  Trying to
+        // return an array of 50 million or so primes still results in an out-of-memory exception.
+//        BitSet isPrime = new BitSet(n);
         for (int i = 0; i < n; i++)
         {
-            isPrime.set(i);
+        	isPrime[i] = true;
+//            isPrime.set(i);
         }
-        isPrime.clear(0);
-        isPrime.clear(1);
-//        isPrime[0] = isPrime[1] = false;
+        isPrime[0] = isPrime[1] = false;
+//        isPrime.clear(0);
+//        isPrime.clear(1);
         
         int rootCeiling = (int) Math.floor(Math.sqrt(aCeiling));
         
         for (int i = 2; i <= rootCeiling; i++)
-            if (isPrime.get(i))
+        	if (isPrime[i])
+//            if (isPrime.get(i))
             {
                 // This little cross-out trick comes from http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Implementation
                 // i^2 + k*i < n
@@ -41,11 +46,13 @@ public class Eratosthenes implements PrimeFinder
                 {
                     int j = iSquared + k * i;
 //                for (int j = 2 * i; j < n; j += i)
-                    isPrime.clear(j); // [j] = false;
+                    isPrime[j] = false;
+//                    isPrime.clear(j); 
                 }
             }
         for (int i = 2; i < n; i++)
-            if (isPrime.get(i))
+        	if (isPrime[i])
+//            if (isPrime.get(i))
                 retval.add( i);
         
         return retval.toArray(new Integer[0]);

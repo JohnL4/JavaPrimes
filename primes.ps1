@@ -21,4 +21,4 @@ foreach ($elt in $classPathElements)
     }
 }
 
-java -cp $classPath $mainClass $Args
+java -Xmx3G -cp $classPath $mainClass $Args

@@ -36,7 +36,14 @@ public class App
     		Integer[] primes = primeFinder.primesNotGreaterThan( options.ceiling);
     		Instant stopTime = Instant.now();
     		Duration computeTime = Duration.between(startTime, stopTime);
-    		if (options.noPrint) {}
+    		if (options.noPrint) 
+    		{
+    			System.out.println( "\t1st prime: " + primes[0]);
+    			if (primes.length >= 1001)
+    				System.out.println( "\t1001st prime: " + primes[1000]);
+    			if (primes.length >= 10000)
+    				System.out.println( "\t10001st prime: " + primes[10000]);
+    		}
     		else
             {
                 System.out.println("Primes:");

@@ -12,9 +12,9 @@ import java.util.List;
 public class Eratosthenes implements PrimeFinder
 {
 
-    public Integer[] primesNotGreaterThan( int aCeiling)
+    public int[] primesNotGreaterThan( int aCeiling)
     {
-        List<Integer> retval = new LinkedList<Integer>();
+        List<Integer> primes = new LinkedList<Integer>();
         int n = aCeiling + 1;
         boolean isPrime[] = new boolean[n];
         // BitSet is a nice space-saver, but if you're trying to find primes below 10^9, you will
@@ -53,9 +53,12 @@ public class Eratosthenes implements PrimeFinder
         for (int i = 2; i < n; i++)
         	if (isPrime[i])
 //            if (isPrime.get(i))
-                retval.add( i);
+                primes.add( i);
         
-        return retval.toArray(new Integer[0]);
+        int[] retval = new int[primes.size()];
+        for (int i=0; i < primes.size(); i++)
+            retval[i] = primes.get(i);
+        return retval;
     }
 
 }

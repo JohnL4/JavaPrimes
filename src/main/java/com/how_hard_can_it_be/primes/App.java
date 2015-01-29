@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -14,6 +15,8 @@ import org.kohsuke.args4j.CmdLineParser;
  */
 public class App 
 {
+    private static int[] primes;
+
     public static void main( String[] args )
     {
     	Options options = new Options();
@@ -61,9 +64,8 @@ public class App
         {
             triangularNumber += i++;
             factors = factors( triangularNumber);
-        } while (factors.size() <= aTriangularNumberFactorCount - 2);
-        factors.add( 0, new Factor( 1, 1));
-        factors.add( new Factor( (int) triangularNumber, 1));
+//        } while (factors.size() <= aTriangularNumberFactorCount - 2);
+        } while (compositeFactorsCount( factors) <= aTriangularNumberFactorCount);
         System.out.println( String.format( "%d has %d factors:", triangularNumber, factors.size()));
         for (Factor factor : factors)
         {
@@ -73,6 +75,16 @@ public class App
                 System.out.print( String.format( "%8d ^ %-8d ", factor.getFactor(), factor.getCount()));
         }
         System.out.println();
+    }
+
+    private static int compositeFactorsCount(List<Factor> aFactorsList)
+    {
+        int product = 1;
+        for (Factor factor : aFactorsList)
+        {
+            product *= (factor.getCount() + 1);
+        }
+        return product;
     }
 
     private static void findFactor( long aNumberToFactor)
@@ -87,24 +99,42 @@ public class App
         }
     }
 
+    /**
+     * Returns list of prime factors of aNumberToFactor.  Returned list will not include aNumberToFactor if it 
+     * happens to be prime.
+     * @param aNumberToFactor
+     * @return
+     */
     private static List<Factor> factors(long aNumberToFactor)
     {
         List<Factor> factors = new LinkedList<Factor>();
-        int rootNumber = (int) Math.round( Math.sqrt( aNumberToFactor));
-        PrimeFinder primeFinder = new Eratosthenes();
-        Integer[] primes = primeFinder.primesNotGreaterThan( rootNumber);
-        long remainingToFactor = aNumberToFactor;
-        for (Integer prime : primes)
+        int rootNumber = (int) Math.floor( Math.sqrt( aNumberToFactor));
+        if (primes == null || primes.length == 0 || primes[primes.length-1] < rootNumber)
         {
-            // The number of times the current prime factor occurs.
-            int factorCount = 0;
-            while (remainingToFactor % prime == 0)
+            if (primes == null || primes.length == 0)
+                System.err.println( "\t\tInitialize primes");
+            else
+                System.err.println(String.format(
+                        "\t\tCalculating new primes because primes[%d] = %d, which is less than %d (sqrt(%d))",
+                        primes.length - 1, primes[primes.length - 1], rootNumber, aNumberToFactor));
+            PrimeFinder primeFinder = new Eratosthenes();
+            primes = primeFinder.primesNotGreaterThan( rootNumber * 10);
+        }
+        long remainingToFactor = aNumberToFactor;
+        for (int prime : primes)
+        {
+            if (prime < aNumberToFactor)
             {
-                factorCount++;
-                remainingToFactor /= prime;
+                // The number of times the current prime factor occurs.
+                int factorCount = 0;
+                while (remainingToFactor % prime == 0)
+                {
+                    factorCount++;
+                    remainingToFactor /= prime;
+                }
+                if (factorCount >= 1)
+                    factors.add(new Factor(prime, factorCount));
             }
-            if (factorCount >= 1)
-                factors.add( new Factor( prime, factorCount));
         }
         return factors;
     }
@@ -112,7 +142,7 @@ public class App
     private static void sumPrimes( int aCeiling)
     {
         PrimeFinder primeFinder = new Eratosthenes();
-        Integer[] primes = primeFinder.primesNotGreaterThan( aCeiling);
+        int[] primes = primeFinder.primesNotGreaterThan( aCeiling);
         long sum = 0;
         for (int prime : primes)
         {
@@ -125,7 +155,7 @@ public class App
     {
         PrimeFinder primeFinder = new Eratosthenes();
         Instant startTime = Instant.now();
-        Integer[] primes = primeFinder.primesNotGreaterThan( aCeiling);
+        int[] primes = primeFinder.primesNotGreaterThan( aCeiling);
         Instant stopTime = Instant.now();
         Duration computeTime = Duration.between(startTime, stopTime);
         if (aNoPrintFlag) 

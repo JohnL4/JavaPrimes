@@ -7,5 +7,5 @@ public interface PrimeFinder
      * @param aCeiling
      * @return
      */
-    Integer[] primesNotGreaterThan( int aCeiling);
+    int[] primesNotGreaterThan( int aCeiling);
 }

@@ -16,4 +16,12 @@ public class Options {
 	@Option( name="--fromFile", usage="Name of a binary file from which to read primes")
 	public String fromFile;
 	
+	@Option( name="--factor", usage="Give prime factors of the given number")
+	public long numberToFactor;
+	
+	@Option( name="--sumPrimes", usage="Sum all primes found.  Implies --noprint")
+	public boolean sumPrimes;
+	
+	@Option( name="--triangularNumberFactors", usage="Print the first triangular number (sum(i, i, 1, n)) whose number of factors is over the given number")
+	public int triangularNumberFactorCount;
 }
